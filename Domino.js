@@ -1,7 +1,92 @@
 class Domino {
-    constructor() { this.jogadores = [[], []]; this.mesa = []; this.turno = 0; this.status = 'em_andamento'; }
-    adicionarPeca(jogador, peca) { if (![0, 1].includes(jogador) || !Array.isArray(peca) || peca.length !== 2 || peca.some(v => v < 0 || v > 6)) throw new Error('Peça ou jogador inválido.'); this.jogadores[jogador].push([...peca]); }
-    podeJogar(peca) { if (!this.mesa.length) return true; return peca.includes(this.mesa[0][0]) || peca.includes(this.mesa[this.mesa.length - 1][1]); }
-    jogar(jogador, indice, invertida = false) { if (jogador !== this.turno) throw new Error('Não é o turno deste jogador.'); const p = this.jogadores[jogador][indice]; if (!p) throw new Error('Peça não encontrada.'); if (!this.podeJogar(p)) throw new Error('Peça não pode ser jogada.'); this.jogadores[jogador].splice(indice, 1); if (!this.mesa.length) this.mesa.push(p); else if (p[1] === this.mesa[0][0]) this.mesa.unshift(p); else if (p[0] === this.mesa[0][0]) this.mesa.unshift([p[1], p[0]]); else if (p[0] === this.mesa[this.mesa.length - 1][1]) this.mesa.push(p); else this.mesa.push([p[1], p[0]]); this.turno = 1 - this.turno; if (!this.jogadores[jogador].length) this.status = 'vencedor'; return this.mesa; }
+    constructor() {
+        this.jogadores = [[], []];
+        this.mesa = [];
+        this.turno = 0;
+        this.status = 'em_andamento';
+        this.vencedor = null;
+    }
+
+    adicionarPeca(jogador, peca) {
+        this.validarJogador(jogador);
+        if (this.status !== 'em_andamento') {
+            throw new Error('A partida não está em andamento.');
+        }
+        if (
+            !Array.isArray(peca) ||
+            peca.length !== 2 ||
+            !peca.every((valor) => Number.isInteger(valor) && valor >= 0 && valor <= 6)
+        ) {
+            throw new Error('Peça inválida. Use dois valores inteiros entre 0 e 6.');
+        }
+        this.jogadores[jogador].push([...peca]);
+    }
+
+    podeJogar(peca) {
+        if (
+            !Array.isArray(peca) ||
+            peca.length !== 2 ||
+            !peca.every((valor) => Number.isInteger(valor) && valor >= 0 && valor <= 6)
+        ) {
+            return false;
+        }
+        if (this.mesa.length === 0) {
+            return true;
+        }
+
+        const pontaInicial = this.mesa[0][0];
+        const pontaFinal = this.mesa[this.mesa.length - 1][1];
+        return peca.includes(pontaInicial) || peca.includes(pontaFinal);
+    }
+
+    jogar(jogador, indice) {
+        this.validarJogador(jogador);
+        if (this.status !== 'em_andamento') {
+            throw new Error('A partida não está em andamento.');
+        }
+        if (jogador !== this.turno) {
+            throw new Error('Não é o turno deste jogador.');
+        }
+        if (!Number.isInteger(indice) || indice < 0 || indice >= this.jogadores[jogador].length) {
+            throw new Error('Índice de peça inválido.');
+        }
+
+        const peca = this.jogadores[jogador][indice];
+        if (!this.podeJogar(peca)) {
+            throw new Error('A peça não pode ser conectada à mesa.');
+        }
+
+        if (this.mesa.length === 0) {
+            this.mesa.push([...peca]);
+        } else {
+            const pontaInicial = this.mesa[0][0];
+            const pontaFinal = this.mesa[this.mesa.length - 1][1];
+
+            if (peca[1] === pontaInicial) {
+                this.mesa.unshift([...peca]);
+            } else if (peca[0] === pontaInicial) {
+                this.mesa.unshift([peca[1], peca[0]]);
+            } else if (peca[0] === pontaFinal) {
+                this.mesa.push([...peca]);
+            } else {
+                this.mesa.push([peca[1], peca[0]]);
+            }
+        }
+
+        this.jogadores[jogador].splice(indice, 1);
+        this.turno = 1 - this.turno;
+        if (this.jogadores[jogador].length === 0) {
+            this.status = 'vencedor';
+            this.vencedor = jogador;
+        }
+        return this.mesa.map((item) => [...item]);
+    }
+
+    validarJogador(jogador) {
+        if (jogador !== 0 && jogador !== 1) {
+            throw new Error('O jogador deve ser identificado por 0 ou 1.');
+        }
+    }
 }
+
 module.exports = { Domino };
