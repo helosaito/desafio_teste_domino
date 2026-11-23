@@ -88,3 +88,5 @@ class Domino {
         }
     }
 }
+
+module.exports = { Domino };
