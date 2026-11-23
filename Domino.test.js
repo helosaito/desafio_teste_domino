@@ -57,3 +57,10 @@ test('declara o jogador vencedor quando ele fica sem peças', () => {
     assert.equal(jogo.vencedor, 0);
     assert.throws(() => jogo.jogar(1, 0), /não está em andamento/);
 });
+
+test('rejeita peça com valores não inteiros ou fora do intervalo', () => {
+    const jogo = new Domino();
+    assert.throws(() => jogo.adicionarPeca(0, [1.5, 2]), /Peça inválida/);
+    assert.throws(() => jogo.adicionarPeca(1, [Number.NaN, 2]), /Peça inválida/);
+    assert.throws(() => jogo.adicionarPeca(1, [7, 2]), /Peça inválida/);
+});
