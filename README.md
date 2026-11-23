@@ -11,7 +11,7 @@ Os jogadores são identificados por `0` e `1`, e a partida começa com o jogador
 - Heloísa Sayuri Silva Saito
 - Ra: 
 - Maria Eduarda de Castro Lachimia
-- Ra: 
+- Ra: 24055202-2
 
 ## Arquivos
 
