@@ -1,4 +1,4 @@
-# Dominó — desafio de testes
+# Dominó — Desafio de Testes
 
 ## Desafio
 
