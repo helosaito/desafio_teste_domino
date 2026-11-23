@@ -9,8 +9,9 @@ Os jogadores são identificados por `0` e `1`, e a partida começa com o jogador
 ## Colaboradores
 
 - Heloísa Sayuri Silva Saito
-
+- Ra: 
 - Maria Eduarda de Castro Lachimia
+- Ra: 
 
 ## Arquivos
 
