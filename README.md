@@ -8,10 +8,8 @@ Os jogadores são identificados por `0` e `1`, e a partida começa com o jogador
 
 ## Colaboradores
 
-- Heloísa Sayuri Silva Saito
-- Ra: 
-- Maria Eduarda de Castro Lachimia
-- Ra: 24055202-2
+- Heloísa Sayuri Silva Saito | RA: 24062631-2
+- Maria Eduarda de Castro Lachimia | RA: 24055202-2
 
 ## Arquivos
 
